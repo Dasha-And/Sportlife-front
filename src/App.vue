@@ -14,6 +14,23 @@
   width: 1160px;
   margin: 0 auto;
 }
+.text-center {
+  text-align: center;
+}
+input, select{
+  width: 615px;
+  height: 50px;
+  border: 1px solid #C5C5C5;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  padding-left: 31px;
+  margin-bottom: 28px;
+  padding-right: 30px;
+}
 h2 {
   font-family: 'Ubuntu',serif;
   font-style: normal;
@@ -46,6 +63,8 @@ p {
   height: 38px;
   line-height: 38px;
   text-align: center;
+  border: 0px;
+  cursor: pointer;
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;

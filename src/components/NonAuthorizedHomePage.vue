@@ -7,7 +7,7 @@
         <p class="nav-item selected">Головна</p>
         <p class="nav-item">Про продукт</p>
         <p class="nav-item">Зв'язатися</p>
-        <a class="button nav-item-sign-in" href="">Увійти</a>
+        <router-link class="button nav-item-sign-in" to="/authorization">Увійти</router-link>
       </div>
     </div>
 
@@ -76,6 +76,7 @@
   width: 583px;
 }
 .nav-item {
+  cursor: pointer;
   display: block;
   height: fit-content;
   margin-top: auto;
