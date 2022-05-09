@@ -5,6 +5,7 @@ import Authorization from "@/components/Authorization";
 import Profile from "@/components/Profile";
 import SingleEvent from "@/components/SingleEvent";
 import CreateEvent from "@/components/CreateEvent";
+import AuthorizedHomePage from "@/components/AuthorizedHomePage";
 
 export default createRouter ({
     history: createWebHistory(),
@@ -14,6 +15,7 @@ export default createRouter ({
         {path: '/authorization', component: Authorization},
         {path: '/profile', component: Profile},
         {path: '/event', component: SingleEvent},
-        {path: '/create_event', component: CreateEvent}
+        {path: '/create_event', component: CreateEvent},
+        {path: '/user', component: AuthorizedHomePage}
     ]
 })

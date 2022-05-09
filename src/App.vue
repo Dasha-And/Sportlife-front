@@ -101,6 +101,7 @@ h4 {
   height: 344px;
   background: #FFFFFF;
   box-shadow: 0px 0px 26px rgba(0, 0, 0, 0.25);
+  text-align: center;
   border-radius: 10px;
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
@@ -120,7 +121,6 @@ h4 {
   text-align: center;
 }
 .events-item-text {
-  text-align: center;
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 500;
