@@ -4,15 +4,18 @@
     <h2 class="logo">Sportlife</h2>
     <h1>Реєстрація</h1>
     <form action="" class="reg-form">
-      <input type="text" name="name" placeholder="Введіть ваше ім’я">
-      <input type="text" name="surname" placeholder="Введіть ваше прізвище">
-      <input type="text" name="email" placeholder="Електронна пошта">
-      <select name="town">
-        <option value="" selected disabled>Оберіть місто</option>
-        <option value="" v-for="town of towns.data" :key="town">{{town}}</option>
-      </select>
-      <input type="password" name="password" placeholder="Введіть пароль (від 8 символів)">
-      <input type="password" name="confirmPassword" placeholder="Підтвердіть пароль">
+      <input type="text" name="name" placeholder="Введіть ваше ім’я" class="height">
+      <input type="text" name="surname" placeholder="Введіть ваше прізвище" class="height">
+      <input type="text" name="email" placeholder="Електронна пошта" class="height">
+      <Multiselect
+          v-model="value"
+          :options="towns.data"
+          searchable="true"
+          class="towns"
+          placeholder="Оберіть місто"
+      />
+      <input type="password" name="password" placeholder="Введіть пароль (від 8 символів)" class="height">
+      <input type="password" name="confirmPassword" placeholder="Підтвердіть пароль" class="height">
       <button class="button reg-button" type="submit">Зареєструватися</button>
     </form>
     <div class="go-to-auth">
@@ -23,13 +26,23 @@
 </template>
 
 <script>
+import Multiselect from '@vueform/multiselect'
 
 export default {
+  components: {
+    Multiselect,
+  },
   name: "Registration",
     data() {
     return {
       selectTown: "Оберіть місто",
-      towns: []
+      towns: [],
+      value: null,
+      options: [
+        'Batman',
+        'Robin',
+        'Joker',
+      ]
     }
   },
   mounted() {
@@ -37,12 +50,21 @@ export default {
         {method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ country: "ukraine" })})
         .then(response => response.json())
         .then(json => {this.towns = json})
+  },
+  methods: {
+    myChangeEvent(val){
+      console.log(val);
+    },
+    mySelectEvent({id, text}){
+      console.log({id, text})
+    }
   }
 }
 
 </script>
 
 <style scoped>
+@import '../../node_modules/@vueform/multiselect/themes/default.css';
 .logo {
   margin-top: 41px;
   margin-bottom: 23px;
@@ -72,5 +94,23 @@ export default {
   line-height: 86px;
   margin-top: 0;
   margin-bottom: 0;
+}
+.towns {
+  width: 615px;
+  height: 50px;
+  border: 1px solid #C5C5C5;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.height {
+  height: 50px;
+  margin-bottom: 28px;
 }
 </style>

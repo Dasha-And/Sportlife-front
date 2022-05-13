@@ -19,16 +19,15 @@
 }
 input, select{
   width: 615px;
-  height: 50px;
+  /*height: 50px;*/
   border: 1px solid #C5C5C5;
   box-sizing: border-box;
-  border-radius: 10px;
+  border-radius: 5px;
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   padding-left: 31px;
-  margin-bottom: 28px;
   padding-right: 30px;
 }
 h2 {
@@ -85,9 +84,6 @@ h3 {
   font-weight: 600;
   font-size: 20px;
   color: #FFFFFF;
-}
-li {
-  color: white;
 }
 h4 {
   font-family: 'Montserrat';

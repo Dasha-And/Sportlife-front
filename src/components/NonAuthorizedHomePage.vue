@@ -1,15 +1,7 @@
 <template>
   <div class="wrapper">
 
-    <div class="header">
-      <h2 class="logo">Sportlife</h2>
-      <div class="nav">
-        <p class="nav-item selected">Головна</p>
-        <p class="nav-item">Про продукт</p>
-        <p class="nav-item">Зв'язатися</p>
-        <router-link class="button nav-item-sign-in" to="/authorization">Увійти</router-link>
-      </div>
-    </div>
+    <NonAuthorizedHeader></NonAuthorizedHeader>
 
     <div class="banner">
     <h1 class="title">Перша платформа для організації сумісних тренувань</h1>
@@ -90,48 +82,21 @@
 </template>
 
 <script>
+import NonAuthorizedHeader from "@/components/header/NonAuthorizedHeader";
 
+export default {
+  components: {
+    NonAuthorizedHeader
+  }
+}
 </script>
 
 <style scoped>
-.logo {
-  height: fit-content;
-  margin-top: auto;
-  margin-bottom: auto;
-}
 .center {
   margin-left: auto;
   margin-right: auto;
   display: block;
   width: fit-content;
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  height: 117px;
-}
-.nav {
-  display: flex;
-  justify-content: space-between;
-  width: 583px;
-}
-.nav-item {
-  cursor: pointer;
-  display: block;
-  height: fit-content;
-  margin-top: auto;
-  margin-bottom: auto;
-  -webkit-transition: 0.5s;
-  -moz-transition: 0.5s;
-  -o-transition: 0.5s;
-}
-.nav-item:hover {
-  color: #F4924A;
-  transition-duration: 0.3s;
-}
-.nav-item-sign-in {
-  margin-top: auto;
-  margin-bottom: auto;
 }
 .banner {
   height: 499px;

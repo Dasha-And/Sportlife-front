@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import "normalize.css"
 import App from './App.vue'
 import router from './router'
+import Select2 from 'vue3-select2-component';
+
 
 const app = createApp(App,{
     data: () => ({
@@ -17,4 +19,5 @@ const app = createApp(App,{
     }
 })
 app.use(router);
+app.component('Select2', Select2)
 app.mount('#app')
