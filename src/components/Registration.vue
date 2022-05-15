@@ -109,8 +109,4 @@ export default {
   position: relative;
   z-index: 1;
 }
-.height {
-  height: 50px;
-  margin-bottom: 28px;
-}
 </style>

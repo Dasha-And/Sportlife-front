@@ -2,46 +2,67 @@
   <div class="header">
     <h2 class="logo">Sportlife</h2>
     <div class="nav">
-      <p class="nav-item" v-bind:class="getClass()">Головна</p>
+      <p class="nav-item" v-bind:class="getClassForMain()">Головна</p>
       <p class="nav-item">Про продукт</p>
       <p class="nav-item">Зв'язатися</p>
-      <a class="nav-item" @click="showDropdown"><img src="../../img/user-icon.svg" alt="" class="user-icon"><p class="nav-item">Іван Русанов</p></a>
+      <a class="nav-item" @click="onDropdownClick"><img src="../../img/user-icon.svg" alt="" class="user-icon"><p class="nav-item" v-bind:class="getClassForProfile()">Іван Русанов</p></a>
     </div>
 
-    <div class="polygon" v-bind:class="showDropdown()">
+    <div class="polygon" v-bind:class="showDropdown">
 
     </div>
     <div class="dropdown" v-bind:class="showDropdown()">
       <router-link to="/profile"><p class="dropdown-text">Мій профіль</p></router-link>
       <hr>
-      <router-link to="/profile"><p class="dropdown-text">Створити нову подію</p></router-link>
+      <a><p class="dropdown-text" @click="showModal">Створити нову подію</p></a>
       <hr>
       <router-link to="/profile"><p class="dropdown-text">Налаштування</p></router-link>
     </div>
   </div>
 
+  <ChooseSportModal
+      v-show="isModalVisible"
+      @close="closeModal"
+  />
+
 </template>
 
 <script>
+import ChooseSportModal from "@/components/modal/ChooseSportModal";
 export default {
   name: "AuthorizedHeader",
+  components: {ChooseSportModal},
   props: ['selected'],
   data() {
     return {
-      isClicked: false
+      isClicked: false,
+      isModalVisible: false,
     }
   },
   methods: {
-    getClass() {
+    getClassForMain() {
       return {
         'selected': this.$props.selected === 'main'
       }
     },
-    showDropdown() {
-      this.isClicked = !this.isClicked
+    getClassForProfile() {
       return {
-        'show' : this.isClicked === true
+        'selected': this.$props.selected === 'profile'
       }
+    },
+    onDropdownClick() {
+      this.isClicked = !this.isClicked
+    },
+    showDropdown() {
+      return {
+        'show' : this.isClicked === true,
+      }
+    },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
     }
   }
 }
@@ -94,7 +115,6 @@ export default {
   border-radius: 10px;
 }
 .polygon {
-
   width: 0;
   height: 0;
   border-left: 25px solid transparent;
@@ -118,6 +138,9 @@ hr {
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
 }
+.hide {
+  display: none;
+}
 .show {
   display: block;
 }
@@ -126,6 +149,7 @@ a {
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
+  cursor: pointer;
 }
 .dropdown-text:hover {
   color: #F4924A;

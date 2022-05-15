@@ -15,7 +15,7 @@ export default createRouter ({
         {path: '/authorization', component: Authorization},
         {path: '/profile', component: Profile},
         {path: '/event', component: SingleEvent},
-        {path: '/create_event', component: CreateEvent},
+        {path: '/create_event/:sport/:type', name: 'create_event', component: CreateEvent},
         {path: '/user', component: AuthorizedHomePage}
     ]
 })

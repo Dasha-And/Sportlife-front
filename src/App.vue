@@ -83,7 +83,10 @@ h3 {
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
-  color: #FFFFFF;
+  /*color: #FFFFFF;*/
+}
+.white {
+  color: white;
 }
 h4 {
   font-family: 'Montserrat';
@@ -121,5 +124,9 @@ h4 {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
+}
+.height {
+  height: 50px;
+  margin-bottom: 28px;
 }
 </style>
