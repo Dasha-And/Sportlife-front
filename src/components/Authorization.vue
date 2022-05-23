@@ -5,8 +5,8 @@
     <h1 class="title">Вхід</h1>
     <p class="welcome-text">Ласкаво просимо!</p>
     <form action="" class="auth-form">
-      <input type="text" name="email" placeholder="Електронна пошта">
-      <input type="password" name="password" placeholder="Пароль">
+      <input type="text" name="email" placeholder="Електронна пошта" class="height">
+      <input type="password" name="password" placeholder="Пароль" class="height">
       <button class="button auth-button" type="submit">Увійти</button>
     </form>
     <div class="go-to-reg">

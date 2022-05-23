@@ -3,7 +3,7 @@ import Home from '@/components/NonAuthorizedHomePage'
 import Registration from "@/components/Registration";
 import Authorization from "@/components/Authorization";
 import Profile from "@/components/Profile";
-import SingleEvent from "@/components/SingleEvent";
+import SingleEvent from "@/components/event/SingleEvent";
 import CreateEvent from "@/components/CreateEvent";
 import AuthorizedHomePage from "@/components/AuthorizedHomePage";
 

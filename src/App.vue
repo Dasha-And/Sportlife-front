@@ -17,7 +17,7 @@
 .text-center {
   text-align: center;
 }
-input, select{
+input, select, textarea{
   width: 615px;
   /*height: 50px;*/
   border: 1px solid #C5C5C5;
@@ -29,6 +29,9 @@ input, select{
   font-size: 16px;
   padding-left: 31px;
   padding-right: 30px;
+}
+::placeholder {
+  color: #B4B4B4;
 }
 h2 {
   font-family: 'Ubuntu',serif;
@@ -114,7 +117,7 @@ h4 {
   display: grid;
   column-gap: 80px;
   row-gap: 78px;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 330px 330px 330px;
 }
 .events-item-title {
   text-align: center;

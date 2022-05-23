@@ -16,54 +16,16 @@
       <h1 class="nearest-events-title">Найближчі події</h1>
 
       <div class="events">
-        <div class="events-item">
-          <h4 class="events-item-title">Баскетбольна гра</h4>
-          <p class="events-item-text">Автор: Іван Русанов</p>
-          <img src="../img/football.svg" alt="" class="center">
-          <p class="date">24.05.22 13:00</p>
-          <p class="events-item-text">Lviv</p>
-          <p class="events-item-text">Записалося 8 чол.</p>
-        </div>
-        <div class="events-item">
-          <h4 class="events-item-title">Баскетбольна гра</h4>
-          <p class="events-item-text">Автор: Іван Русанов</p>
-          <img src="../img/football.svg" alt="" class="center">
-          <p class="date">24.05.22 13:00</p>
-          <p class="events-item-text">Lviv</p>
-          <p class="events-item-text">Записалося 8 чол.</p>
-        </div>
-        <div class="events-item">
-          <h4 class="events-item-title">Баскетбольна гра</h4>
-          <p class="events-item-text">Автор: Іван Русанов</p>
-          <img src="../img/football.svg" alt="" class="center">
-          <p class="date">24.05.22 13:00</p>
-          <p class="events-item-text">Lviv</p>
-          <p class="events-item-text">Записалося 8 чол.</p>
-        </div>
-        <div class="events-item">
-          <h4 class="events-item-title">Баскетбольна гра</h4>
-          <p class="events-item-text">Автор: Іван Русанов</p>
-          <img src="../img/football.svg" alt="" class="center">
-          <p class="date">24.05.22 13:00</p>
-          <p class="events-item-text">Lviv</p>
-          <p class="events-item-text">Записалося 8 чол.</p>
-        </div>
-        <div class="events-item">
-          <h4 class="events-item-title">Баскетбольна гра</h4>
-          <p class="events-item-text">Автор: Іван Русанов</p>
-          <img src="../img/football.svg" alt="" class="center">
-          <p class="date">24.05.22 13:00</p>
-          <p class="events-item-text">Lviv</p>
-          <p class="events-item-text">Записалося 8 чол.</p>
-        </div>
-        <div class="events-item">
-          <h4 class="events-item-title">Баскетбольна гра</h4>
-          <p class="events-item-text">Автор: Іван Русанов</p>
-          <img src="../img/football.svg" alt="" class="center">
-          <p class="date">24.05.22 13:00</p>
-          <p class="events-item-text">Lviv</p>
-          <p class="events-item-text">Записалося 8 чол.</p>
-        </div>
+        <SingleEvent
+            v-for="event in this.events"
+            :title="event.title"
+            :author="event.author"
+            :image="event.image"
+            :date="event.date"
+            :town="event.town"
+            :amount="event.amount"
+        />
+
       </div>
 
     </div>
@@ -83,10 +45,66 @@
 
 <script>
 import NonAuthorizedHeader from "@/components/header/NonAuthorizedHeader";
+import SingleEvent from "@/components/event/SingleEvent";
 
 export default {
   components: {
-    NonAuthorizedHeader
+    NonAuthorizedHeader,
+    SingleEvent
+  },
+  data() {
+    return {
+      events: [
+        {
+          title: "Баскетбольна гра",
+          author: "Іван Русанов",
+          image: "football",
+          date: "24.05.22 13:00",
+          town: "Lviv",
+          amount: "8"
+        },
+        {
+          title: "Баскетбольна гра",
+          author: "Іван Русанов",
+          image: "football",
+          date: "24.05.22 13:00",
+          town: "Lviv",
+          amount: "8"
+        },
+        {
+          title: "Баскетбольна гра",
+          author: "Іван Русанов",
+          image: "football",
+          date: "24.05.22 13:00",
+          town: "Lviv",
+          amount: "8"
+        },
+        {
+          title: "Баскетбольна гра",
+          author: "Іван Русанов",
+          image: "football",
+          date: "24.05.22 13:00",
+          town: "Lviv",
+          amount: "8"
+        },
+        {
+          title: "Баскетбольна гра",
+          author: "Іван Русанов",
+          image: "football",
+          date: "24.05.22 13:00",
+          town: "Lviv",
+          amount: "8"
+        },
+        {
+          title: "Баскетбольна гра",
+          author: "Іван Русанов",
+          image: "football",
+          date: "24.05.22 13:00",
+          town: "Lviv",
+          amount: "8"
+        }
+      ]
+    }
   }
 }
 </script>
@@ -116,10 +134,6 @@ export default {
 }
 .nearest-events-title {
   margin-bottom: 100px;
-}
-.date {
-  color: #C5C5C5;
-  font-size: 14px;
 }
 .about-text {
   line-height: 192.9%;
