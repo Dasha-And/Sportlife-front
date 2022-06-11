@@ -4,11 +4,11 @@
     <h2 class="logo">Sportlife</h2>
     <h1 class="title">Вхід</h1>
     <p class="welcome-text">Ласкаво просимо!</p>
-    <form action="" class="auth-form">
-      <input type="text" name="email" placeholder="Електронна пошта" class="height">
-      <input type="password" name="password" placeholder="Пароль" class="height">
-      <button class="button auth-button" type="submit">Увійти</button>
-    </form>
+    <div action="" class="auth-form">
+      <input type="text" name="email" placeholder="Електронна пошта" class="height" v-model="email">
+      <input type="password" name="password" placeholder="Пароль" class="height" v-model="password">
+      <button class="button auth-button" @click="loginClicked">Увійти</button>
+    </div>
     <div class="go-to-reg">
       <p class="go-to-reg-text">Ще немає акаунту? <router-link to="/registration">Приєднуйтесь до SPORTLIFE</router-link></p>
     </div>
@@ -17,8 +17,37 @@
 </template>
 
 <script>
+import UserService from "@/UserService";
+
 export default {
-  name: "Authorization"
+  name: "Authorization",
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    loginClicked() {
+      console.log(this.email)
+      console.log(this.password)
+      UserService
+          .login(this.email, this.password)
+          .then(() => {
+            UserService.registerSuccessfulLogin(this.email, this.password, 0)
+            UserService.getUserByEmail(this.email).then((res) => {
+              let user = res.data
+              UserService.registerSuccessfulLogin(this.email, this.password, user.id)
+              UserService.saveFullName(user.name, user.surname)
+              this.$router.push(`/profile/${user.id}`)
+            })
+
+          }).catch((ex) => {
+        console.log(ex)
+      })
+
+    }
+  }
 }
 </script>
 

@@ -1,9 +1,9 @@
 <template>
-  <div class="events-item">
+  <div class="events-item" @click="goToEvent">
     <h4 class="events-item-title">{{title}}</h4>
     <p class="events-item-text">Автор: {{author}}</p>
     <img :src="getImgUrl(image)" alt="" class="center">
-    <p class="date">{{date}}</p>
+    <p class="date">{{formatDate(date)}}</p>
     <p class="events-item-text bottom">{{town}}</p>
     <p class="events-item-text">Записалося {{amount}} чол.</p>
     <router-link class="button edit-button" to="">Редагувати</router-link>
@@ -11,9 +11,12 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "SingleEvent",
   props: {
+    id: Number,
     title: String,
     author: String,
     image: String,
@@ -24,11 +27,18 @@ export default {
   data() {
     return {
       imageConstructor: "",
+      path: ""
     }
   },
   methods: {
     getImgUrl(image) {
       return require("../../img/" + image + ".svg")
+    },
+    formatDate(date) {
+      return moment(date).format('DD.MM.yyyy HH:mm')
+    },
+    goToEvent() {
+      this.$router.push('/event/' + this.$props.id)
     }
   }
 }
@@ -48,6 +58,7 @@ export default {
   margin-left: auto;
 }
 .events-item {
+  cursor: pointer;
   width: 330px;
   height: 344px;
   background: #FFFFFF;

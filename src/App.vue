@@ -132,4 +132,42 @@ h4 {
   height: 50px;
   margin-bottom: 28px;
 }
+span.multiselect-tag {
+  background: #F4924A;
+  border-radius: 20px;
+}
+.carousel__prev, .carousel__next {
+  background-color: #F4924A;
+}
+:root {
+  --vc-clr-primary: #F4924A;
+  --vc-clr-secondary: #8e98f3;
+  --vc-clr-white: #ffffff;
+  --vc-icn-width: 1.2em;
+  --vc-nav-width: 30px;
+  --vc-nav-color: #ffffff;
+  --vc-nav-background-color: #F4924A;
+  --vc-pgn-width: 10px;
+  --vc-pgn-height: 5px;
+  --vc-pgn-margin: 5px;
+  --vc-pgn-border-radius: 0;
+  --vc-pgn-background-color: #F4924A;
+  --vc-pgn-active-color: var(--vc-clr-primary);
+}
+.vti__input {
+  height: 50px;
+  border-radius: 5px;
+}
+.vue-tel-input {
+  border-radius: 5px;
+  border: 1px solid #C5C5C5;
+
+}
+.vti__dropdown-list.below {
+  z-index: 2;
+  font-family: 'Montserrat';
+}
+.vti__dropdown {
+  font-family: 'Montserrat';
+}
 </style>

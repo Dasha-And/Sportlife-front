@@ -39,4 +39,16 @@ export default {
   color: #C5C5C5;
   font-size: 14px;
 }
+a {
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 14px;
+  color: black;
+  text-decoration-line: underline;
+  transition-duration: 0.3s;
+}
+a:hover {
+  color: #F4924A;
+  transition-duration: 0.3s;
+}
 </style>

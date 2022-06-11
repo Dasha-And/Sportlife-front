@@ -58,7 +58,7 @@ export default {
         {
           title: "Баскетбольна гра",
           author: "Іван Русанов",
-          image: "football",
+          image: "2",
           date: "24.05.22 13:00",
           town: "Lviv",
           amount: "8"
@@ -66,7 +66,7 @@ export default {
         {
           title: "Баскетбольна гра",
           author: "Іван Русанов",
-          image: "football",
+          image: "2",
           date: "24.05.22 13:00",
           town: "Lviv",
           amount: "8"
@@ -74,7 +74,7 @@ export default {
         {
           title: "Баскетбольна гра",
           author: "Іван Русанов",
-          image: "football",
+          image: "2",
           date: "24.05.22 13:00",
           town: "Lviv",
           amount: "8"
@@ -82,7 +82,7 @@ export default {
         {
           title: "Баскетбольна гра",
           author: "Іван Русанов",
-          image: "football",
+          image: "2",
           date: "24.05.22 13:00",
           town: "Lviv",
           amount: "8"
@@ -90,7 +90,7 @@ export default {
         {
           title: "Баскетбольна гра",
           author: "Іван Русанов",
-          image: "football",
+          image: "2",
           date: "24.05.22 13:00",
           town: "Lviv",
           amount: "8"
@@ -98,7 +98,7 @@ export default {
         {
           title: "Баскетбольна гра",
           author: "Іван Русанов",
-          image: "football",
+          image: "2",
           date: "24.05.22 13:00",
           town: "Lviv",
           amount: "8"

@@ -9,8 +9,8 @@
         <Multiselect
             v-model="sport"
             v-show="!showSecondStep"
-            :options="['Баскетбол', 'Футбол', 'Стрітбол', 'Біг', 'Фітнес-аеробіка']"
-            searchable = true
+            :options="sports"
+            searchable = searchable
             class="sports"
             placeholder="Оберіть вид спорту"
             @select="toggleSport"
@@ -18,13 +18,13 @@
         <Multiselect
             v-model="type"
             v-show="showSecondStep"
-            :options="['Змагання', 'Тренування', 'Спортивна гра']"
+            :options="types"
             class="sports"
             placeholder="Оберіть тип події"
             @select="toggleType"
         />
         <button class="button next-button" v-show="!showSecondStep" @click="showSecond">Далі</button>
-        <router-link class="button next-button" v-show="showSecondStep" :to="{ name: 'create_event', params: { sport: sport, type: type } }">Далі</router-link>
+        <router-link class="button next-button" v-show="showSecondStep" :to="{ name: 'create_event', params: { sport: sport, type: type, activityType: activityType, id: id } }">Далі</router-link>
       </div>
     </div>
 
@@ -34,6 +34,7 @@
 
 <script>
 import Multiselect from "@vueform/multiselect";
+import UserService, {API_BASE_URL, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
 
 export default {
   name: "ChooseSportModal",
@@ -44,7 +45,15 @@ export default {
     return {
       showSecondStep: false,
       sport: "init",
-      type: "init"
+      type: "init",
+      searchable: true,
+      sports: [],
+      options: [],
+      types: [],
+      activityTypes: [],
+      activityType: "init",
+      ids: [],
+      id: 0
     }
   },
   methods: {
@@ -52,6 +61,17 @@ export default {
       this.$emit('close');
     },
     showSecond() {
+      let index = this.sports.indexOf(this.sport)
+      let type = this.options[index]
+      this.activityType = this.activityTypes[index]
+      this.id = this.ids[index]
+      if (type === 'ALL') {
+        this.types = ['Змагання', 'Тренування', 'Гра']
+      } else if (type === 'TRAINING_AND_COMPETITION') {
+        this.types = ['Змагання', 'Тренування']
+      } else if (type === 'ONLY_TRAINING') {
+        this.types = ['Тренування']
+      }
       this.showSecondStep = true
     },
     toggleSport(sport) {
@@ -62,6 +82,21 @@ export default {
       this.$data.type = type
       console.log(' >> '+ this.$data.type )
     }
+  },
+  mounted() {
+    fetch( API_BASE_URL + "/sports",
+        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), sessionStorage.getItem(USER_PASSWORD))}})
+        .then(response => response.json())
+        .then(json => {Array.from(json).forEach(sport =>
+            this.sports.push(sport.name))
+        Array.from(json).forEach(sport =>
+            this.options.push(sport.sportEventTypeOpportunities))
+          Array.from(json).forEach(sport =>
+              this.activityTypes.push(sport.activityType))
+          Array.from(json).forEach(sport =>
+              this.ids.push(sport.id))
+        })
+
   }
 }
 </script>

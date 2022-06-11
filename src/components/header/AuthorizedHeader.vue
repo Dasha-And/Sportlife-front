@@ -5,18 +5,18 @@
       <p class="nav-item" v-bind:class="getClassForMain()">Головна</p>
       <p class="nav-item">Про продукт</p>
       <p class="nav-item">Зв'язатися</p>
-      <a class="nav-item" @click="onDropdownClick"><img src="../../img/user-icon.svg" alt="" class="user-icon"><p class="nav-item" v-bind:class="getClassForProfile()">Іван Русанов</p></a>
+      <a class="nav-item" @click="onDropdownClick"><img src="../../img/user-icon.svg" alt="" class="user-icon"><p class="nav-item" v-bind:class="getClassForProfile()">{{user}}</p></a>
     </div>
 
     <div class="polygon" v-bind:class="showDropdown">
 
     </div>
     <div class="dropdown" v-bind:class="showDropdown()">
-      <router-link to="/profile"><p class="dropdown-text">Мій профіль</p></router-link>
+      <router-link to="/profile/{{id}}"><p class="dropdown-text">Мій профіль</p></router-link>
       <hr>
       <a><p class="dropdown-text" @click="showModal">Створити нову подію</p></a>
       <hr>
-      <router-link to="/profile"><p class="dropdown-text">Налаштування</p></router-link>
+      <a><p class="dropdown-text" @click="logout">Вийти</p></a>
     </div>
   </div>
 
@@ -29,6 +29,7 @@
 
 <script>
 import ChooseSportModal from "@/components/modal/ChooseSportModal";
+import UserService, {USER_FULLNAME, USER_ID} from "@/UserService";
 export default {
   name: "AuthorizedHeader",
   components: {ChooseSportModal},
@@ -37,6 +38,8 @@ export default {
     return {
       isClicked: false,
       isModalVisible: false,
+      user: sessionStorage.getItem(USER_FULLNAME),
+      id: sessionStorage.getItem(USER_ID)
     }
   },
   methods: {
@@ -63,6 +66,10 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    logout() {
+      UserService.logout()
+      this.$router.push("/")
     }
   }
 }

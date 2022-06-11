@@ -3,19 +3,22 @@
   <div class="text-center">
     <h2 class="logo">Sportlife</h2>
     <h1>Реєстрація</h1>
-    <form action="" class="reg-form">
-      <input type="text" name="name" placeholder="Введіть ваше ім’я" class="height">
-      <input type="text" name="surname" placeholder="Введіть ваше прізвище" class="height">
-      <input type="text" name="email" placeholder="Електронна пошта" class="height">
+    <form action="" class="reg-form" v-on:submit.prevent="submitForm">
+      <input type="text" name="name" placeholder="Введіть ваше ім’я" class="height" v-model="form.name">
+      <input type="text" name="surname" placeholder="Введіть ваше прізвище" class="height" v-model="form.surname">
+      <input type="text" name="email" placeholder="Електронна пошта" class="height" v-model="form.email">
+      <vue-tel-input placeholder="Телефон" class="height" v-model="form.phone" :value="phone" @input="onInput"></vue-tel-input>
+      <textarea name="description" v-model="form.description" placeholder="Розкажіть про себе та ваші досягнення в спорті (не обов'язково)" class="textarea-height" ></textarea>
       <Multiselect
-          v-model="value"
+          v-model="form.town"
           :options="towns.data"
-          searchable="true"
+          searchable=searchable
           class="towns"
+          name="town"
           placeholder="Оберіть місто"
       />
-      <input type="password" name="password" placeholder="Введіть пароль (від 8 символів)" class="height">
-      <input type="password" name="confirmPassword" placeholder="Підтвердіть пароль" class="height">
+      <input type="text" id="dateOfBirth" name="dateOfBirth" v-model="form.dateOfBirth" placeholder="Дата народження" class="height" onfocus="(this.type='date')" onblur="(this.type='text')">
+      <input type="password" name="password" placeholder="Введіть пароль (від 8 символів)" class="height" v-model="form.password">
       <button class="button reg-button" type="submit">Зареєструватися</button>
     </form>
     <div class="go-to-auth">
@@ -27,10 +30,30 @@
 
 <script>
 import Multiselect from '@vueform/multiselect'
+import axios from "axios";
+import UserService, {API_BASE_URL, USER_ID, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
+import {reactive, toRefs} from "vue";
 
 export default {
+  // setup: () => {
+  //   const state = reactive({
+  //     phone: null
+  //   })
+  //
+  //   const onInput = (phone, phoneObject) => {
+  //     if (phoneObject?.formatted) {
+  //       state.phone = phoneObject.formatted
+  //       console.log(state.phone)
+  //     }
+  //   }
+  //
+  //   return {
+  //     ...toRefs(state),
+  //     onInput
+  //   }
+  // },
   components: {
-    Multiselect,
+    Multiselect
   },
   name: "Registration",
     data() {
@@ -38,11 +61,23 @@ export default {
       selectTown: "Оберіть місто",
       towns: [],
       value: null,
+      phone: '',
       options: [
         'Batman',
         'Robin',
         'Joker',
-      ]
+      ],
+      searchable: true,
+      form: {
+        name: '',
+        surname: '',
+        email: '',
+        phone: '',
+        description: '',
+        town: '',
+        dateOfBirth: '',
+        password: ''
+      }
     }
   },
   mounted() {
@@ -57,6 +92,35 @@ export default {
     },
     mySelectEvent({id, text}){
       console.log({id, text})
+    },
+    onInput(phone, phoneObject) {
+      if (phoneObject?.formatted) {
+        this.form.phone = phoneObject.formatted
+        console.log(this.form.phone)
+      }
+    },
+    submitForm(){
+
+      console.log(this.form)
+      axios.post(API_BASE_URL + '/user', this.form)
+          .then((res) => {
+            //Perform Success Action
+            console.log(res)
+            let user = res.data
+            UserService.registerSuccessfulLogin(user.email, this.form.password, user.id)
+            UserService.saveFullName(user.name, user.surname)
+            if(res.status === 201) {
+              // UserService.registerSuccessfulLogin(user.email, user.password, user.id)
+              // UserService.saveFullName(user.name, user.surname)
+            }
+          })
+          .catch((error) => {
+            // error.response.status Check status code
+            console.log(error)
+          })
+      .finally(() => {
+        this.$router.push(`/profile/` + sessionStorage.getItem(USER_ID))
+      });
     }
   }
 }
@@ -108,5 +172,8 @@ export default {
   margin-bottom: 28px;
   position: relative;
   z-index: 1;
+}
+.textarea-height {
+  margin-bottom: 28px;
 }
 </style>
