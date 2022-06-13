@@ -12,7 +12,7 @@
 
     </div>
     <div class="dropdown" v-bind:class="showDropdown()">
-      <router-link to="/profile/{{id}}"><p class="dropdown-text">Мій профіль</p></router-link>
+      <a><p class="dropdown-text" @click="goToProfile">Мій профіль</p></a>
       <hr>
       <a><p class="dropdown-text" @click="showModal">Створити нову подію</p></a>
       <hr>
@@ -60,6 +60,9 @@ export default {
       return {
         'show' : this.isClicked === true,
       }
+    },
+    goToProfile() {
+      this.$router.push('/profile/' + sessionStorage.getItem(USER_ID))
     },
     showModal() {
       this.isModalVisible = true;

@@ -16,7 +16,7 @@
           name="town"
           placeholder="Оберіть місто"
       />
-      <input type="date" id="dateOfBirth" name="dateOfBirth" @input="date" placeholder="Дата народження" class="height">
+      <input type="text" id="dateOfBirth" name="dateOfBirth" v-model="form.dateOfBirth" placeholder="Дата народження" class="height hidden" onfocus="(this.type='date')" onblur="(this.type='text')">
       <button class="button reg-button" type="submit">Зберегти</button>
     </form>
   </div>
@@ -26,9 +26,15 @@
 <script>
 
 import AuthorizedHeader from "@/components/header/AuthorizedHeader";
-import UserService from "@/UserService";
+import UserService, {
+  API_BASE_URL,
+  USER_FULLNAME,
+  USER_ID,
+  USER_NAME_SESSION_ATTRIBUTE_NAME,
+  USER_PASSWORD
+} from "@/UserService";
 import Multiselect from "@vueform/multiselect";
-import moment from "moment";
+import axios from "axios";
 
 export default {
   name: "EditProfile",
@@ -72,9 +78,26 @@ export default {
     })
   },
   methods: {
-    formatDate(date) {
-      return moment(date).format('DD.MM.yyyy')
-    },
+
+    submitForm(){
+
+      console.log(this.form)
+      axios.put(API_BASE_URL + '/user/' + sessionStorage.getItem(USER_ID), this.form, { headers: { authorization: UserService.createBasicAuthToken(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), sessionStorage.getItem(USER_PASSWORD)) }})
+          .then((res) => {
+            //Perform Success Action
+            console.log(res)
+
+            sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, res.data.email)
+            sessionStorage.setItem(USER_FULLNAME, res.data.name + ' ' + res.data.surname)
+          })
+          .catch((error) => {
+            // error.response.status Check status code
+            console.log(error)
+          })
+          .finally(() => {
+            this.$router.push(`/profile/` + sessionStorage.getItem(USER_ID))
+          });
+    }
   }
 }
 </script>
@@ -102,5 +125,13 @@ export default {
 }
 .textarea-height {
   margin-bottom: 28px;
+}
+.reg-button {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.hidden {
+  display: none;
 }
 </style>
