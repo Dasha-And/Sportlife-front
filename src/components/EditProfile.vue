@@ -16,7 +16,7 @@
           name="town"
           placeholder="Оберіть місто"
       />
-      <input type="text" id="dateOfBirth" name="dateOfBirth" v-model="form.dateOfBirth" placeholder="Дата народження" class="height hidden" onfocus="(this.type='date')" onblur="(this.type='text')">
+      <input type="text" id="dateOfBirth" name="dateOfBirth" v-model="form.dateOfBirth" placeholder="Дата народження" class="height hidden">
       <button class="button reg-button" type="submit">Зберегти</button>
     </form>
   </div>
@@ -82,20 +82,20 @@ export default {
     submitForm(){
 
       console.log(this.form)
-      axios.put(API_BASE_URL + '/user/' + sessionStorage.getItem(USER_ID), this.form, { headers: { authorization: UserService.createBasicAuthToken(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), sessionStorage.getItem(USER_PASSWORD)) }})
+      axios.put(API_BASE_URL + '/user/' + localStorage.getItem(USER_ID), this.form, { headers: { authorization: UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD)) }})
           .then((res) => {
             //Perform Success Action
             console.log(res)
 
-            sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, res.data.email)
-            sessionStorage.setItem(USER_FULLNAME, res.data.name + ' ' + res.data.surname)
+            localStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, res.data.email)
+            localStorage.setItem(USER_FULLNAME, res.data.name + ' ' + res.data.surname)
           })
           .catch((error) => {
             // error.response.status Check status code
             console.log(error)
           })
           .finally(() => {
-            this.$router.push(`/profile/` + sessionStorage.getItem(USER_ID))
+            this.$router.push(`/profile/` + localStorage.getItem(USER_ID))
           });
     }
   }

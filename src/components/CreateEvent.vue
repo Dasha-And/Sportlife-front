@@ -71,7 +71,6 @@ export default {
     //   center: { lat: 34.855273888888888, lng: 135.30649 }, //自由な緯度・経度を入力
     //   zoom: 10,
     // });
-    console.log(localStorage.getItem(USER_ID))
     var options = {
       componentRestrictions: {country: "ua"}
     };

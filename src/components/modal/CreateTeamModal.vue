@@ -48,7 +48,7 @@ export default {
   },
   mounted() {
     fetch( API_BASE_URL + "/users",
-        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), sessionStorage.getItem(USER_PASSWORD))}})
+        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
         .then(response => response.json())
         .then(json => {Array.from(json).forEach(sport =>
             this.users.push(sport.name + ' ' + sport.surname))

@@ -119,7 +119,7 @@ export default {
             console.log(error)
           })
       .finally(() => {
-        this.$router.push(`/profile/` + sessionStorage.getItem(USER_ID))
+        this.$router.push(`/profile/` + localStorage.getItem(USER_ID))
       });
     }
   }

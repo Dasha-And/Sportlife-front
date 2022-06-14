@@ -38,8 +38,8 @@ export default {
     return {
       isClicked: false,
       isModalVisible: false,
-      user: sessionStorage.getItem(USER_FULLNAME),
-      id: sessionStorage.getItem(USER_ID)
+      user: localStorage.getItem(USER_FULLNAME),
+      id: localStorage.getItem(USER_ID)
     }
   },
   methods: {
@@ -62,7 +62,7 @@ export default {
       }
     },
     goToProfile() {
-      this.$router.push('/profile/' + sessionStorage.getItem(USER_ID))
+      this.$router.push('/profile/' + localStorage.getItem(USER_ID))
     },
     showModal() {
       this.isModalVisible = true;

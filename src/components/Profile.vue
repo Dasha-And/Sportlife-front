@@ -2,7 +2,7 @@
 <div class="wrapper">
   <Loader v-if="loading"></Loader>
   <div class="content" v-else-if="user !== {}">
-    <AuthorizedHeader v-bind:selected="selected" v-bind:user="user.name + ' ' + user.surname"></AuthorizedHeader>
+    <AuthorizedHeader v-bind:selected="selected"></AuthorizedHeader>
 
     <h1 class="title">Мій профіль</h1>
     <div class="profile">
@@ -90,8 +90,8 @@ export default {
       otherEvents: [],
       user: {},
       loading: true,
-      author: sessionStorage.getItem(USER_FULLNAME),
-      id: sessionStorage.getItem(USER_ID)
+      author: localStorage.getItem(USER_FULLNAME),
+      id: localStorage.getItem(USER_ID)
     }
   },
   methods: {
@@ -103,7 +103,7 @@ export default {
     },
     getImage(activityId) {
       fetch( "http://localhost:8080/sport/" + activityId,
-          {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), sessionStorage.getItem(USER_PASSWORD))}})
+          {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
           .then(response => response.json())
           .then(json => {
             return json.name})
@@ -112,7 +112,7 @@ export default {
       return moment(date).format('DD.MM.yyyy')
     },
     goToEditProfile() {
-      this.$router.push('/edit_profile/' + sessionStorage.getItem(USER_ID))
+      this.$router.push('/edit_profile/' + this.$route.params.id)
     }
   },
   mounted() {
@@ -127,8 +127,8 @@ export default {
     }, 500)
 
 
-    fetch( "http://localhost:8080/event?userId=" + sessionStorage.getItem(USER_ID),
-        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), sessionStorage.getItem(USER_PASSWORD))}})
+    fetch( "http://localhost:8080/event?userId=" + this.$route.params.id,
+        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
         .then(response => response.json())
         .then(json => {
           this.myEvents = json;
