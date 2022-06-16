@@ -7,6 +7,7 @@ import CreateEvent from "@/components/CreateEvent";
 import AuthorizedHomePage from "@/components/AuthorizedHomePage";
 import EventPage from "@/components/EventPage";
 import EditProfile from "@/components/EditProfile";
+import EditEvent from "@/components/EditEvent";
 
 export default createRouter ({
     history: createWebHistory(),
@@ -18,6 +19,7 @@ export default createRouter ({
         {path: '/event/:id', component: EventPage},
         {path: '/create_event/:sport/:type/:activityType/:id', name: 'create_event', component: CreateEvent},
         {path: '/edit_profile/:id', component: EditProfile},
+        {path: '/profile/edit_event/:id', component: EditEvent},
         {path: '/main', component: AuthorizedHomePage}
     ]
 })

@@ -1,13 +1,16 @@
 <template>
-  <div class="events-item" @click="goToEvent">
-    <h4 class="events-item-title">{{title}}</h4>
-    <p class="events-item-text">Автор: {{author}}</p>
-    <img :src="getImgUrl(image)" alt="" class="center">
-    <p class="date">{{formatDate(date)}}</p>
-    <p class="events-item-text bottom">{{town}}</p>
-    <p class="events-item-text">Записалося {{amount}} чол.</p>
-    <router-link class="button edit-button" to="">Редагувати</router-link>
+  <div class="events-item" >
+    <div class="clickable" @click="goToEvent">
+      <h4 class="events-item-title">{{title}}</h4>
+      <p class="events-item-text">Автор: {{author}}</p>
+      <img :src="getImgUrl(image)" alt="" class="center">
+      <p class="date">{{formatDate(date)}}</p>
+      <p class="events-item-text bottom">{{town}}</p>
+      <p class="events-item-text">Записалося {{amount}} чол.</p>
+    </div>
+    <a class="button edit-button" @click="goToEditEvent">Редагувати</a>
   </div>
+
 </template>
 
 <script>
@@ -39,6 +42,9 @@ export default {
     },
     goToEvent() {
       this.$router.push('/event/' + this.$props.id)
+    },
+    goToEditEvent() {
+      this.$router.push('edit_event/' + this.$props.id)
     }
   }
 }

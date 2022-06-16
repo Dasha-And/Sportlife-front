@@ -15,6 +15,7 @@
           <p>Місто: {{user.town}}</p>
           <p>Телефон: {{user.phone}}</p>
           <p>Дата народження: {{formatDate(user.dateOfBirth)}}</p>
+          <p v-show="user.description !== null">Опис: {{user.description}}</p>
         </div>
       </div>
 
@@ -164,7 +165,7 @@ export default {
 }
 .info {
   display: flex;
-  width: 409px;
+  width: 600px;
   justify-content: space-between;
 }
 .edit-profile-button {

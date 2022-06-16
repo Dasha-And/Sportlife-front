@@ -5,9 +5,9 @@
       <div class="popup">
         <a href="" ><img src="../../img/close.svg" alt="" class="close-icon" @click="close"></a>
         <h3 class="popup-text">Створення команди</h3>
-        <input type="text" name="name" placeholder="Назва команди" class="sports height">
+        <input type="text" name="name" placeholder="Назва команди" class="sports height" v-model="team.name">
         <Multiselect
-            v-model="amount"
+            v-model="team.count"
             :options="options"
             class="sports"
             placeholder="Оберіть кількість людей у команді"
@@ -20,7 +20,7 @@
             searchable="searchable"
             placeholder="Додайте людей за бажанням"
         />
-        <button class="button next-button" >Далі</button>
+        <button class="button next-button" @click="createTeam">Створити</button>
       </div>
     </div>
 
@@ -30,11 +30,11 @@
 
 <script>
 import Multiselect from "@vueform/multiselect";
-import UserService, {API_BASE_URL, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
+import UserService, {API_BASE_URL, USER_ID, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
 
 export default {
   name: "CreateTeamModal",
-  props: ['minCountTeam', 'maxCountTeam'],
+  props: ['minCountTeam', 'maxCountTeam', 'id'],
   components: {
     Multiselect,
   },
@@ -47,33 +47,36 @@ export default {
       max: this.maxCountTeam,
       searchable: true,
       users: [],
-      options: [],
+      usersIds: [],
+      options: ['6'],
       team: {
         name: '',
-        sportEventId: '',
+        sportEventId: this.id,
         count: ''
       }
     }
   },
   mounted() {
-    console.log(this.min)
-    console.log(this.max)
+    // console.log(this.min)
+    // console.log(this.max)
     fetch( API_BASE_URL + "/users",
         {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
         .then(response => response.json())
         .then(json => {Array.from(json).forEach(sport =>
             this.users.push(sport.name + ' ' + sport.surname))
+          Array.from(json).forEach(sport =>
+            this.usersIds.push(sport.id))
         }).catch((ex) => {
           console.log(ex)
     })
-    if (this.max === this.min) {
-      this.options.push(this.min)
-    } else {
-      for (let i = this.min; i <= this.max; i++) {
-        console.log(i)
-        this.options.push(i)
-      }
-    }
+    // if (this.max === this.min) {
+    //   this.options.push(this.min)
+    // } else {
+    //   for (let i = this.min; i <= this.max; i++) {
+    //     console.log(i)
+    //     this.options.push(i)
+    //   }
+    // }
   },
   methods: {
     close() {
@@ -89,6 +92,27 @@ export default {
     toggleType(type) {
       this.$data.type = type
       console.log(' >> '+ this.$data.type )
+    },
+    createTeam() {
+      UserService.createTeam(this.team).then((res) => {
+        console.log(this.team)
+        console.log(res)
+        if (res.status === 201) {
+          location.reload()
+        }
+        console.log(this.members)
+        let userTeam;
+        let userEvent;
+        Array.from(this.members).forEach(member => {
+          userTeam = {profileId : member.id, teamId: res.data.id}
+          UserService.createUserTeam(userTeam)
+          userEvent = {userId: member.id, sportEventId: this.team.sportEventId}
+          UserService.createUserEvent(userEvent)
+        })
+      }).catch((ex) => {
+        console.log(this.team)
+        console.log(ex)
+      })
     }
   }
 }

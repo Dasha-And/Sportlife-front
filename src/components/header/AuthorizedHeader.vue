@@ -2,7 +2,7 @@
   <div class="header">
     <h2 class="logo">Sportlife</h2>
     <div class="nav">
-      <router-link class="nav-item" v-bind:class="getClassForMain()" to="/main">Головна</router-link>
+      <router-link class="nav-item color" v-bind:class="getClassForMain()" to="/main">Головна</router-link>
       <p class="nav-item">Про продукт</p>
       <p class="nav-item">Зв'язатися</p>
       <a class="nav-item" @click="onDropdownClick"><img src="../../img/user-icon.svg" alt="" class="user-icon"><p class="nav-item" v-bind:class="getClassForProfile()">{{user}}</p></a>
@@ -104,6 +104,7 @@ export default {
   -webkit-transition: 0.5s;
   -moz-transition: 0.5s;
   -o-transition: 0.5s;
+
 }
 .nav-item:hover {
   color: #F4924A;
@@ -153,6 +154,9 @@ hr {
 }
 .show {
   display: block;
+}
+.color {
+  color: black;
 }
 a {
   text-decoration: none;

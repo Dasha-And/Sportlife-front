@@ -52,6 +52,7 @@
       v-show="isCreateTeamModalVisible"
       :min-count-team="minCount"
       :max-count-team="maxCount"
+      v-bind:id="this.$route.params.id"
       @close="closeModal"
   />
 </template>
