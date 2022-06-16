@@ -7,33 +7,51 @@
     <h1 class="title-event">{{event.name}}</h1>
     <p class="author">Автор: {{author}}</p>
     <p class="description">Опис: {{event.description}}</p>
-    <h3 class="bottom">Команди</h3>
 
-    <div class="teams-block">
-<!--      <div v-bind:class="getClass()">-->
-<!--        -->
-<!--      </div>-->
-      <carousel :items-to-show="amount" :snap-align="start" class="carousel">
-        <slide v-for="slide in 9" :key="slide">
-          <Team
-              v-bind:members="members"
-              v-bind:max-count="maxCount"
-          ></Team>
-        </slide>
-
-      <template #addons>
-        <navigation />
-        <pagination />
-      </template>
-    </carousel>
-      <button class="create-team" v-on:click="showModal()">Створити команду</button>
+    <div class="gameOrTrain" v-show="!isCompetition">
+      <h3 class="bottom">Учасники</h3>
+      <div class="participants-block">
+        <Participants
+            v-bind:max-count="event.maxCount"
+            v-bind:id="eventId"
+        ></Participants>
+      </div>
     </div>
+
+    <div class="competition" v-show="isCompetition">
+      <h3 class="bottom">Команди</h3>
+      <div class="teams-block">
+        <!--      <div v-bind:class="getClass()">-->
+        <!--        -->
+        <!--      </div>-->
+        <h3 style="color: #F4924A; text-align: center; padding-top: 80px" v-show="teams.length === 0">На цю подію ще не зареєстрована жодна команда!</h3>
+        <carousel :items-to-show="amount" :snap-align="start" class="carousel" v-show="teams.length !== 0">
+          <slide v-for="team in teams" :key="team">
+            <Team
+                v-bind:id="team.id"
+                v-bind:max-count="event.maxCountTeam"
+                v-bind:name="team.name"
+                v-bind:eventId="eventId"
+            ></Team>
+          </slide>
+
+          <template #addons>
+            <navigation />
+            <pagination />
+          </template>
+        </carousel>
+        <button class="create-team" v-on:click="showModal()">Створити команду</button>
+      </div>
+    </div>
+
     <h3 class="address">Адреса: {{event.address}}</h3>
   </div>
 
 </div>
   <CreateTeamModal
       v-show="isCreateTeamModalVisible"
+      :min-count-team="minCount"
+      :max-count-team="maxCount"
       @close="closeModal"
   />
 </template>
@@ -42,10 +60,11 @@
 import AuthorizedHeader from "@/components/header/AuthorizedHeader";
 import Team from "@/components/team/Team";
 import CreateTeamModal from "@/components/modal/CreateTeamModal";
-import UserService from "@/UserService";
+import UserService, {API_BASE_URL, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
 import Loader from "@/components/loader/Loader";
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
+import Participants from "@/components/team/Participants";
 
 export default {
   name: "EventPage",
@@ -57,7 +76,8 @@ export default {
     Carousel,
     Slide,
     Pagination,
-    Navigation
+    Navigation,
+    Participants
   },
   data() {
     return {
@@ -67,7 +87,10 @@ export default {
       event: {},
       loading: true,
       author: '',
-      maxCount: 5
+      maxCount: '',
+      minCount: '',
+      teams: [],
+      isCompetition: false
     }
   },
   computed: {
@@ -96,16 +119,30 @@ export default {
     }
   },
   mounted() {
+
     UserService.getEvent(this.eventId).then((res) => {
       this.event = res.data
+      console.log(res.data)
+      if (res.data.sportEventType === 'COMPETITION') {
+        this.isCompetition = true
+      }
+      this.maxCount = res.data.maxCountTeam
+      this.minCount = res.data.minCountTeam
       UserService.getUserById(this.event.profileId).then((res) => {
         this.author = res.data.name + " " + res.data.surname
       })
     })
-
+    fetch(API_BASE_URL + '/teams/' + this.eventId,
+        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
+        .then(response => response.json())
+        .then(json => {
+          console.log(json)
+          this.teams = json;
+        })
     setTimeout(()=> {
       this.loading = false
     }, 1000)
+
   }
 }
 </script>
@@ -122,11 +159,20 @@ export default {
 }
 .teams-block {
   width: 1163px;
-  height: 467px;
+  height: 517px;
   margin-left: auto;
   margin-right: auto;
   background: #E4E4E4;
   border-radius: 10px;
+}
+.participants-block {
+  width: 1163px;
+  height: 517px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #E4E4E4;
+  border-radius: 10px;
+  padding-top: 12px;
 }
 .teams {
   display: grid;

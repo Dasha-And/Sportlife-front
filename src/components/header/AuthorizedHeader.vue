@@ -2,7 +2,7 @@
   <div class="header">
     <h2 class="logo">Sportlife</h2>
     <div class="nav">
-      <p class="nav-item" v-bind:class="getClassForMain()">Головна</p>
+      <router-link class="nav-item" v-bind:class="getClassForMain()" to="/main">Головна</router-link>
       <p class="nav-item">Про продукт</p>
       <p class="nav-item">Зв'язатися</p>
       <a class="nav-item" @click="onDropdownClick"><img src="../../img/user-icon.svg" alt="" class="user-icon"><p class="nav-item" v-bind:class="getClassForProfile()">{{user}}</p></a>
@@ -97,7 +97,7 @@ export default {
 .nav-item {
   display: flex;
   cursor: pointer;
-
+  font-family: Montserrat;
   height: fit-content;
   margin-top: auto;
   margin-bottom: auto;

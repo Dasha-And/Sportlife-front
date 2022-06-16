@@ -50,18 +50,24 @@
     </div>
     <div class="other-events" v-show="showOtherEvents">
       <p v-show="otherEvents.length === 0" class="no-events-placeholder">Ви ще не записалися до жодної події</p>
-      <SingleEvent
-          v-for="event in this.otherEvents"
-          :title="event.title"
-          :author="event.author"
-          :image="event.activityId"
-          :date="event.date"
-          :town="event.town"
-          :amount="event.amount"
-      />
+      <div class="events">
+        <SingleEvent
+            v-for="event in this.otherEvents"
+            :id="event.id"
+            :title="event.name"
+            :author="event.profileId"
+            :image="event.activityId"
+            :date="event.startDate"
+            :town="event.town"
+            :amount="event.amount"
+        />
+      </div>
     </div>
+
   </div>
+
 </div>
+  <div class="footer"></div>
 </template>
 
 <script>
@@ -132,6 +138,13 @@ export default {
         .then(response => response.json())
         .then(json => {
           this.myEvents = json;
+        })
+    fetch( "http://localhost:8080/user-event/event/" + this.$route.params.id,
+        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
+        .then(response => response.json())
+        .then(json => {
+          console.log(json)
+          this.otherEvents = json;
         })
   }
 }

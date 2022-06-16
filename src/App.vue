@@ -170,4 +170,9 @@ span.multiselect-tag {
 .vti__dropdown {
   font-family: 'Montserrat';
 }
+.footer {
+  height: 350px;
+  background: #F4924A;
+  margin-top: 84px;
+}
 </style>

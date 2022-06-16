@@ -1,34 +1,63 @@
 <template>
 <div v-bind:class="getClass()">
+  <p>{{name}}</p>
   <div class="team_ohne_button">
-    <div class="member" v-for="member in this.$props.members">
+    <div class="member" v-for="member in members">
       <img src="../../img/user-icon.svg" alt="" class="img">
-      <p class="member-name">{{member}}</p>
+      <p class="member-name">{{member.name + ' ' + member.surname}}</p>
     </div>
     <div class="member" v-for="n in actualCount">
       <img src="../../img/question.svg" alt="" class="question">
     </div>
   </div>
   <button class="disabled button" v-show="actualCount === 0">Запис закрито</button>
-  <button class="button" v-show="actualCount !== 0">Записатися</button>
+  <button class="disabled button" v-show="already && actualCount !== 0">Ви вже записані</button>
+  <button class="button" v-show="actualCount !== 0 && !already" @click="createUserTeam">Записатися</button>
 </div>
 </template>
 
 <script>
+import UserService, {API_BASE_URL, USER_ID, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
+
 export default {
   name: "Team",
-  props: ['members', 'maxCount'],
+  props: ['maxCount', 'name', 'id', 'eventId'],
   data() {
     return {
       minCount: 5,
       actualCount: 0,
-      width: Math.ceil(this.$props.maxCount/5)
+      width: Math.ceil(this.$props.maxCount/5),
+      members: [],
+      already: false,
+      userTeam: {
+        profileId: localStorage.getItem(USER_ID),
+        teamId: this.$props.id
+      },
+      userEvent: {
+        userId: localStorage.getItem(USER_ID),
+        sportEventId: this.$props.eventId
+      }
     }
   },
   mounted() {
-    this.actualCount = this.maxCount - this.$props.members.length
     this.width = Math.ceil(this.maxCount/5)
     console.log(this.width)
+    fetch(API_BASE_URL + '/user-team/user/' + this.$props.id,
+        {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
+        .then(response => response.json())
+        .then(json => {
+          console.log(json)
+          this.members = json;
+          Array.from(json).forEach(member => {
+                if(member.id === localStorage.getItem(USER_ID)){
+                  this.already = true
+                  console.log(this.already)
+                }
+              }
+          )
+          this.actualCount = this.maxCount - json.length
+        })
+
   },
   methods: {
     getClass() {
@@ -45,6 +74,17 @@ export default {
         'team-1' : this.width === 1
       }
     },
+    createUserTeam() {
+      UserService.createUserTeam(this.userTeam).then((res) => {
+        console.log(res)
+        UserService.createUserEvent(this.userEvent).then((res) => {
+          console.log('userEvent:> ' + res)
+        }).catch((ex) => {
+          console.log(ex)
+        })
+        location.reload();
+      })
+    }
   },
   computed: {
     cssProps() {
@@ -61,7 +101,7 @@ export default {
   /*display: inline-block;*/
   /*width: 286px;*/
   width: 286px;
-  height: 325px;
+  height: 375px;
   background: #FFFFFF;
   border-radius: 10px;
 }
@@ -69,7 +109,7 @@ export default {
   /*display: inline-block;*/
   /*width: 286px;*/
   width: calc(286px * 2);
-  height: 325px;
+  height: 375px;
   background: #FFFFFF;
   border-radius: 10px;
 }
@@ -77,7 +117,7 @@ export default {
   /*display: inline-block;*/
   /*width: 286px;*/
   width: calc(286px * 3);
-  height: 325px;
+  height: 375px;
   background: #FFFFFF;
   border-radius: 10px;
 }

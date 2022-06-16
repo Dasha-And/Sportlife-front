@@ -59,6 +59,12 @@ class UserService {
     createEvent(event) {
         return axios.post(API_BASE_URL + "/event", event, { headers: { authorization: this.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD)) }})
     }
+    createUserTeam(userTeam) {
+        return axios.post(API_BASE_URL + "/user-team", userTeam, { headers: { authorization: this.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD)) }})
+    }
+    createUserEvent(userEvent) {
+        return axios.post(API_BASE_URL + "/user-event", userEvent, { headers: { authorization: this.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD)) }})
+    }
     getEvent(id) {
         return axios.get(API_BASE_URL + "/event/" + id, { headers: { authorization: this.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD)) }})
     }

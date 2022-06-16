@@ -8,7 +8,7 @@
         <input type="text" name="name" placeholder="Назва команди" class="sports height">
         <Multiselect
             v-model="amount"
-            :options="['3', '4', '5']"
+            :options="options"
             class="sports"
             placeholder="Оберіть кількість людей у команді"
         />
@@ -33,7 +33,8 @@ import Multiselect from "@vueform/multiselect";
 import UserService, {API_BASE_URL, USER_NAME_SESSION_ATTRIBUTE_NAME, USER_PASSWORD} from "@/UserService";
 
 export default {
-  name: "ChooseSportModal",
+  name: "CreateTeamModal",
+  props: ['minCountTeam', 'maxCountTeam'],
   components: {
     Multiselect,
   },
@@ -42,11 +43,21 @@ export default {
       showSecondStep: false,
       amount: 0,
       members: [],
+      min: this.minCountTeam,
+      max: this.maxCountTeam,
       searchable: true,
-      users: []
+      users: [],
+      options: [],
+      team: {
+        name: '',
+        sportEventId: '',
+        count: ''
+      }
     }
   },
   mounted() {
+    console.log(this.min)
+    console.log(this.max)
     fetch( API_BASE_URL + "/users",
         {method: "GET", headers: { "Content-Type": "application/json" , "Authorization": UserService.createBasicAuthToken(localStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME), localStorage.getItem(USER_PASSWORD))}})
         .then(response => response.json())
@@ -55,6 +66,14 @@ export default {
         }).catch((ex) => {
           console.log(ex)
     })
+    if (this.max === this.min) {
+      this.options.push(this.min)
+    } else {
+      for (let i = this.min; i <= this.max; i++) {
+        console.log(i)
+        this.options.push(i)
+      }
+    }
   },
   methods: {
     close() {
